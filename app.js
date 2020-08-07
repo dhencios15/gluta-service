@@ -3,7 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 
-const userRouter = require('./routes/userRoutes');
+const userRouters = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
@@ -12,7 +13,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(mongoSanitize());
 
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/users', userRouters);
+app.use('/api/v1/product', productRoutes);
 
 app.use('/api', (req, res) => {
   res.send('Hello world');

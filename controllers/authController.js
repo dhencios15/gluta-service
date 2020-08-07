@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
-const catchAsync = require('../utils/catchAsync');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
+
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
@@ -33,20 +33,26 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res) => {
+exports.signup = async (req, res) => {
   const { name, email, password } = req.body;
-  console.log('Name', req.body);
 
-  const newUser = await User.create({
-    name,
-    email,
-    password,
-  });
+  try {
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+    });
 
-  createSendToken(newUser, 201, res);
-});
+    createSendToken(newUser, 201, res);
+  } catch ({ errors: { name } }) {
+    res.status(400).json({
+      status: 'Failed',
+      message: name.properties.message,
+    });
+  }
+};
 
-exports.signin = catchAsync(async (req, res, next) => {
+exports.signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   // 1) Check if email and password exist
@@ -62,4 +68,4 @@ exports.signin = catchAsync(async (req, res, next) => {
 
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
-});
+};

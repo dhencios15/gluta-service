@@ -5,18 +5,18 @@ const bcrypt = require('bcryptjs');
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Please prove a name'],
+    required: [true, 'Please Provide a name'],
   },
   email: {
     type: String,
-    required: [true, 'Please prove a email'],
+    required: [true, 'Please Provide a email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email'],
+    validate: [validator.isEmail, 'Please Provide a valid email'],
   },
   password: {
     type: String,
-    required: [true, 'Please prove a password'],
+    required: [true, 'Please Provide a password'],
   },
 });
 
