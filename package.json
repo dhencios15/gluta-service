@@ -1,12 +1,12 @@
 {
   "name": "gluta-domz",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple project to manage products of beauty products",
   "main": "index.js",
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "client": "npm start --prefix gluta-app",
+    "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
@@ -17,8 +17,6 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.5.2",
-    "bootswatch": "^4.5.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
