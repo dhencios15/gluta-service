@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Provider } from 'react-redux';
+import { Windmill } from '@windmill/react-ui';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import './tailwind.output.css';
 import * as serviceWorker from './serviceWorker';
+import { store, persistor } from './store';
+
+import { SidebarProvider } from './context/SidebarContext';
+import ThemedSuspense from './components/ThemedSuspense';
+import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <SidebarProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Suspense fallback={<ThemedSuspense />}>
+          <Windmill usePreferences>
+            <App />
+          </Windmill>
+        </Suspense>
+      </PersistGate>
+    </Provider>
+  </SidebarProvider>,
   document.getElementById('root')
 );
 
