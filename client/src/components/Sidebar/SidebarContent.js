@@ -56,6 +56,14 @@ function SidebarContent() {
           </span>
         </Button>
       </div>
+      <div className='px-6 my-6'>
+        <Button>
+          Add Client
+          <span className='ml-2' aria-hidden='true'>
+            +
+          </span>
+        </Button>
+      </div>
     </div>
   );
 }

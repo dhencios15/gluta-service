@@ -6,3 +6,8 @@ export const SIGN_OUT_FAILED = 'user/SIGN_OUT_FAILED';
 export const SIGN_IN_START = 'user/SIGN_IN_START';
 export const SIGN_OUT_START = 'user/SIGN_OUT_START';
 export const CHECK_USER_SESSION = 'user/CHECK_USER_SESSION';
+
+// product
+export const GET_ALL_PRODUCTS = 'product/GET_ALL_PRODUCTS';
+export const GET_PRODUCTS_FAILED = 'product/GET_PRODUCTS_FAILED';
+export const GET_PRODUCTS_START = 'product/GET_PRODUCTS_START';

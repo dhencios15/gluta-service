@@ -9,7 +9,10 @@ import * as yup from 'yup';
 import ImageLight from '../assets/img/login-office.jpeg';
 import ImageDark from '../assets/img/login-office-dark.jpeg';
 import { signInStart } from '../store/user/user.action';
-import { selectUserSigningIn } from '../store/user/user.selector';
+import {
+  selectUserSigningIn,
+  selectUserHasError,
+} from '../store/user/user.selector';
 
 const schema = yup.object().shape({
   email: yup
@@ -22,13 +25,13 @@ const schema = yup.object().shape({
 const Login = () => {
   const dispatch = useDispatch();
   const isSigningIn = useSelector((state) => selectUserSigningIn(state));
+  const hasError = useSelector((state) => selectUserHasError(state));
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   });
 
   const onSubmit = (data, e) => {
-    console.log(data);
     dispatch(signInStart(data));
     e.target.reset();
   };
@@ -56,6 +59,25 @@ const Login = () => {
               <h1 className='mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200'>
                 Login
               </h1>
+              {hasError && (
+                <div
+                  className='flex items-center bg-red-600 text-white text-sm font-bold px-4 py-3 mb-2'
+                  role='alert'
+                >
+                  <svg
+                    viewBox='0 0 20 20'
+                    fill='currentColor'
+                    className='shield-exclamation w-6 h-6 mr-2'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z'
+                      clipRule='evenodd'
+                    ></path>
+                  </svg>
+                  <p>{hasError}</p>
+                </div>
+              )}
               <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
                 <Label>
                   <span>Email</span>
@@ -65,6 +87,7 @@ const Login = () => {
                     type='email'
                     placeholder='admin@ezride.com'
                     ref={register}
+                    valid={errors.email ? false : undefined}
                   />
                   <HelperText valid={false}>
                     {errors?.email?.message}
@@ -79,6 +102,7 @@ const Login = () => {
                     type='password'
                     placeholder='***************'
                     ref={register}
+                    valid={errors.password ? false : undefined}
                   />
                   <HelperText valid={false}>
                     {errors?.password?.message}

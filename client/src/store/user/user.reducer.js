@@ -38,8 +38,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case SIGN_OUT_FAILED:
       return {
         ...state,
-        error: payload,
         loading: false,
+        error: payload,
       };
     default:
       return state;

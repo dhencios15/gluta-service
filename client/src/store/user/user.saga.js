@@ -1,4 +1,4 @@
-import { put, takeLatest, all, call } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 
 import {
   SIGN_IN_START,
@@ -6,11 +6,7 @@ import {
   CHECK_USER_SESSION,
 } from '../type.constant';
 
-import {
-  createUserProfileDocument,
-  auth,
-  getCurrentUser,
-} from '../../firebase';
+// import firebase from '../../firebase';
 
 import {
   signInSuccess,
@@ -19,9 +15,16 @@ import {
   signOutFailed,
 } from './user.action';
 
-export function* getSnapshotFromUserAuth(userAuth, otherData) {
+import firebase from '../../firebase';
+
+function* getSnapshotFromUserAuth(userAuth, otherData) {
   try {
-    const userRef = yield call(createUserProfileDocument, userAuth, otherData);
+    const userRef = yield call(
+      firebase.createUserProfileDocument,
+      userAuth,
+      otherData
+    );
+    if (!userRef) return yield put(signOutSuccess());
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (error) {
@@ -29,44 +32,37 @@ export function* getSnapshotFromUserAuth(userAuth, otherData) {
   }
 }
 
-export function* isUserAuthenticated() {
-  const userAuth = yield getCurrentUser();
-  if (!userAuth) return;
-  yield getSnapshotFromUserAuth(userAuth);
-}
-
-export function* signIn({ payload: { email, password } }) {
-  const { user } = yield auth.signInWithEmailAndPassword(email, password);
-  yield getSnapshotFromUserAuth(user);
-}
-
-export function* signOut() {
-  try {
-    yield auth.signOut();
-    yield put(signOutSuccess());
-  } catch (error) {
-    yield put(signOutFailed());
+function* userSagas({ type, payload }) {
+  switch (type) {
+    case SIGN_IN_START:
+      try {
+        const { user } = yield call(
+          firebase.signIn,
+          payload.email,
+          payload.password
+        );
+        yield getSnapshotFromUserAuth(user);
+      } catch (error) {
+        yield put(signInFailed('Incorrect Email or Password'));
+      }
+      break;
+    case SIGN_OUT_START:
+      try {
+        yield call(firebase.signOut);
+        yield put(signOutSuccess());
+      } catch (error) {
+        yield put(signOutFailed());
+      }
+      break;
+    case CHECK_USER_SESSION:
+      // yield put(signOutSuccess());
+      const userAuth = yield call(firebase.getCurrentUser);
+      if (!userAuth) return yield put(signOutSuccess());
+      yield getSnapshotFromUserAuth(userAuth);
+      break;
+    default:
+      return;
   }
 }
 
-// * ----------- CALLER FUNCTIONS ------------------- * //
-
-export function* onSignInStart() {
-  yield takeLatest(SIGN_IN_START, signIn);
-}
-
-export function* onSignOutStart() {
-  yield takeLatest(SIGN_OUT_START, signOut);
-}
-
-export function* onCheckUserSession() {
-  yield takeLatest(CHECK_USER_SESSION, isUserAuthenticated);
-}
-
-export function* userSagas() {
-  yield all([
-    call(onSignInStart),
-    call(onSignOutStart),
-    call(onCheckUserSession),
-  ]);
-}
+export default userSagas;

@@ -11,3 +11,8 @@ export const selectUserSigningIn = createSelector(
   [selectUser],
   (user) => user.loading
 );
+
+export const selectUserHasError = createSelector(
+  [selectUser],
+  (user) => user.error
+);

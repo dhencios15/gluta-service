@@ -7,14 +7,18 @@ import { checkUserSession } from './store/user/user.action';
 
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 import PrivateRoute from './routes/PrivateRoute';
+import { getProductStart } from './store/products/products.action';
 const Login = lazy(() => import('./pages/Login'));
 const Layout = lazy(() => import('./containers/Layout'));
 
-const App = ({ checkUserSession, currentUser }) => {
+const App = ({ checkUserSession, currentUser, getProductStart }) => {
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
-  console.log(currentUser);
+
+  useEffect(() => {
+    getProductStart();
+  }, [getProductStart]);
   return (
     <>
       <Router>
@@ -38,6 +42,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   checkUserSession: () => dispatch(checkUserSession()),
+  getProductStart: () => dispatch(getProductStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -27,8 +27,10 @@ import { ReactComponent as OutlinePersonIcon } from './outlinePerson.svg';
 import { ReactComponent as OutlineCogIcon } from './outlineCog.svg';
 import { ReactComponent as OutlineLogoutIcon } from './outlineLogout.svg';
 import { ReactComponent as ProductIcon } from './products.svg';
+import { ReactComponent as ErrorIcon } from './error.svg';
 
 export {
+  ErrorIcon,
   ButtonsIcon,
   CardsIcon,
   ChartsIcon,
