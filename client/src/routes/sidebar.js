@@ -12,6 +12,11 @@ const routes = [
     name: 'Dashboard', // name that appear in Sidebar
   },
   {
+    path: '/serve',
+    icon: 'ButtonsIcon',
+    name: 'Serve',
+  },
+  {
     path: '/products',
     icon: 'ProductIcon',
     name: 'Products',
@@ -21,11 +26,6 @@ const routes = [
     icon: 'OutlinePersonIcon',
     name: 'Clients',
   },
-  // {
-  //   path: '/charts',
-  //   icon: 'ChartsIcon',
-  //   name: 'Charts',
-  // },
   // {
   //   path: '/buttons',
   //   icon: 'ButtonsIcon',

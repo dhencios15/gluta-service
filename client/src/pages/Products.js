@@ -42,7 +42,7 @@ const Products = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>Name</TableCell>
+                <TableCell>Product</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Quantity</TableCell>
