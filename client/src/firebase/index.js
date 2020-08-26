@@ -87,6 +87,35 @@ class Firebase {
       }
     });
   };
+
+  // * ------------------------------------------- CLIENTS  -------------------------------------------------------
+
+  getAllClients = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const query = this.db.collection('clients');
+        const snapshot = await query.get();
+        const clients = [];
+        snapshot.forEach((doc) => clients.push({ id: doc.id, ...doc.data() }));
+        resolve(clients);
+      } catch (error) {
+        reject(new Error(':( Failed to fetch clients.'));
+      }
+    });
+  };
+
+  getClient = (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const query = this.db.collection('clients').doc(id);
+        const snapshot = await query.get();
+        const client = snapshot.data();
+        resolve(client);
+      } catch (error) {
+        reject(new Error(':( Failed to fetch clients.'));
+      }
+    });
+  };
 }
 
 const firebase = new Firebase();

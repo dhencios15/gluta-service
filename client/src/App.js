@@ -8,17 +8,25 @@ import { checkUserSession } from './store/user/user.action';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
 import PrivateRoute from './routes/PrivateRoute';
 import { getProductStart } from './store/products/products.action';
+import { getAllClientStart } from './store/clients/clients.action';
 const Login = lazy(() => import('./pages/Login'));
 const Layout = lazy(() => import('./containers/Layout'));
 
-const App = ({ checkUserSession, currentUser, getProductStart }) => {
+const App = ({
+  checkUserSession,
+  currentUser,
+  getProductStart,
+  getAllClientStart,
+}) => {
   useEffect(() => {
     checkUserSession();
-  }, [checkUserSession]);
-
-  useEffect(() => {
     getProductStart();
-  }, [getProductStart]);
+  }, [checkUserSession, getProductStart]);
+
+  // useEffect(() => {
+  //   getAllClientStart();
+  // }, [getAllClientStart]);
+
   return (
     <>
       <Router>
@@ -43,6 +51,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   checkUserSession: () => dispatch(checkUserSession()),
   getProductStart: () => dispatch(getProductStart()),
+  getAllClientStart: () => dispatch(getAllClientStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

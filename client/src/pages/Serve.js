@@ -9,13 +9,11 @@ import {
   TableFooter,
   TableContainer,
   Badge,
-  Avatar,
   Button,
-  Pagination,
 } from '@windmill/react-ui';
 import PageTitle from '../components/Typography/PageTitle';
 import SectionTitle from '../components/Typography/SectionTitle';
-import { SearchIcon, TrashIcon, EditIcon } from '../icons';
+import { SearchIcon, EditIcon } from '../icons';
 
 const Serve = () => {
   const [search, setSearch] = useState('');
