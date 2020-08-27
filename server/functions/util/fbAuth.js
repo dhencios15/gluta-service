@@ -24,6 +24,6 @@ exports.FBauth = async (req, res, next) => {
     req.user.userId = user.docs[0].data().userId;
     next();
   } catch (error) {
-    return res.status(403).json({ errors: 'Invalid Token' });
+    return res.status(403).json({ errors: error.code });
   }
 };
