@@ -17,14 +17,6 @@ exports.validateProduct = (data) => {
     errors.description = 'Please provide a description';
   }
 
-  // if (Validator.isEmpty(data.price)) {
-  //   errors.price = 'Please provide a price';
-  // }
-
-  // if (Validator.isEmpty(data.quantity)) {
-  //   errors.quantity = 'Please provide a quantity';
-  // }
-
   return {
     errors,
     isValid: isEmpty(errors),

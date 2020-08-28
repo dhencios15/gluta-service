@@ -13,7 +13,7 @@ const router = Router();
 router.post('/signup', signUp);
 router.post('/login', logIn);
 
-router.use(FBauth); // Authenticated
+router.use(FBauth); // Check authenticate user routes below
 
 router.route('/').get(getAuthUser).post(addUserDetails);
 router.post('/upload', uploadImage);

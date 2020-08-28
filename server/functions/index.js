@@ -6,6 +6,9 @@ const helmet = require('helmet');
 
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
+const inventoryRouter = require('./routes/inventoryRoutes');
+const clientRouter = require('./routes/clientRoutes');
+const sellRouter = require('./routes/sellRoutes');
 
 const app = express();
 
@@ -24,5 +27,8 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 app.use('/products', productRouter);
 app.use('/users', userRouter);
+app.use('/inventory', inventoryRouter);
+app.use('/clients', clientRouter);
+app.use('/sell', sellRouter);
 
 exports.api = functions.region('asia-northeast1').https.onRequest(app);
